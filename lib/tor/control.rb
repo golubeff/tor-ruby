@@ -236,7 +236,10 @@ module Tor
       Pathname(reply)
     end
 
-  protected
+    def newnym
+      send_command(:signal, 'NEWNYM')
+      read_reply
+    end
 
     ##
     # Sends a command line over the socket.
@@ -248,6 +251,8 @@ module Tor
       authenticate unless authenticated?
       send_line(["#{command.to_s.upcase}", *args].join(' '))
     end
+
+  protected
 
     ##
     # Sends a text line over the socket.
